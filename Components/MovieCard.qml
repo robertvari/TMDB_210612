@@ -17,6 +17,10 @@ Rectangle {
 
             Image{
                 source: Resources.get_image("poster.jpg")
+                sourceSize: Qt.size(poster_rect.width - 10, poster_rect.height)
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 5
+                anchors.top: parent.top
             }
         }
 

@@ -11,7 +11,7 @@ Rectangle {
         clip: true
 
         model: 100
-        cellWidth: 193
+        cellWidth: 210
         cellHeight: 383
 
         delegate: MovieCard{
