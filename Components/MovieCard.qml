@@ -4,6 +4,7 @@ import QtQuick.Layouts
 Rectangle {
     radius: 5
     border.color: Qt.rgba(0, 0, 0, 0.1)
+    clip: true
 
     ColumnLayout{
         anchors.fill: parent
@@ -22,16 +23,29 @@ Rectangle {
             }
         }
 
-        Rectangle{
-            id: title_rect
-            color: "lightgray"
+        Item{
+            id: title_container
             Layout.fillWidth: true
             implicitHeight: 70
 
-            Text{
-                text: "Title/Release date"
-                anchors.centerIn: parent
+            ColumnLayout{
+                anchors.fill: parent
+                anchors.margins: 10
+
+                Text{
+                    text: "Black Widow"
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+
+                Text{
+                    text: "Jul 07, 2021"
+                    color: "#888888"
+                    font.pixelSize: 16
+                }
             }
+
+
         }
     }
 
