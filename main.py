@@ -6,6 +6,8 @@ import sys
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 
+from Modules.resource_loader import Resources
+
 
 class TMDB:
     def __init__(self):
@@ -13,6 +15,8 @@ class TMDB:
         self.engine = QQmlApplicationEngine()
         self.context = self.engine.rootContext()
 
+        self.resource_loader = Resources()
+        self.context.setContextProperty("Resources", self.resource_loader)
 
         self.engine.load(os.fspath(Path(__file__).resolve().parent / "main.qml"))
         if not self.engine.rootObjects():

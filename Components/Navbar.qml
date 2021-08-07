@@ -5,5 +5,8 @@ Rectangle {
 
     Image{
         source: Resources.get_image("logo.svg")
+        anchors.left: parent.left
+        anchors.margins: 10
+        anchors.verticalCenter: parent.verticalCenter
     }
 }
