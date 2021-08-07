@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import "Widgets"
@@ -12,21 +12,25 @@ Rectangle {
             placeholderText: "Search..."
             Layout.fillWidth: true
             font.pixelSize: 16
+            leftPadding: 20
         }
 
         TextLink{
             link_text: "Title"
-            color: "black"
+            defaultColor: "black"
+            font.pixelSize: 16
         }
 
         TextLink{
             link_text: "Release date"
-            color: "black"
+            defaultColor: "black"
+            font.pixelSize: 16
         }
 
         TextLink{
             link_text: "Rating"
-            color: "black"
+            defaultColor: "black"
+            font.pixelSize: 16
         }
 
         Item{
