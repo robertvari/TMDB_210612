@@ -1,7 +1,10 @@
 import QtQuick 2.0
 
-Item {
+Rectangle {
+    color: "lightblue"
+
     Text{
         text: "Searchbar Component"
+        anchors.centerIn: parent
     }
 }
