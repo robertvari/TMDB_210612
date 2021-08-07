@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts
+import "Widgets"
 
 
 Rectangle {
@@ -19,11 +20,8 @@ Rectangle {
         Repeater{
             model: ["Movies", "TV Shows", "People", "More"]
 
-            Text{
-                color: "white"
-                font.bold: true
-                text: modelData
-                font.pixelSize: 20
+            TextLink{
+                link_text: modelData
                 Layout.rightMargin: 10
             }
         }
