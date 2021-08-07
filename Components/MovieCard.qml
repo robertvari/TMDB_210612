@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts
+import "Widgets"
 
 Rectangle {
     radius: 5
@@ -21,6 +22,13 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 5
                 anchors.top: parent.top
+            }
+
+            PopularityProgress{
+                x: 5
+                anchors.bottom: parent.bottom
+
+                percentage: 75
             }
         }
 
@@ -50,5 +58,8 @@ Rectangle {
         }
     }
 
-
+    MouseArea{
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+    }
 }
