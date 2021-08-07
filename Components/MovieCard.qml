@@ -10,16 +10,13 @@ Rectangle {
         anchors.fill: parent
         spacing: 0
 
-        Rectangle{
+        Item{
             id: poster_rect
-            color: "black"
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            Text{
-                text: "Poster..."
-                color: "white"
-                anchors.centerIn: parent
+            Image{
+                source: Resources.get_image("poster.jpg")
             }
         }
 
