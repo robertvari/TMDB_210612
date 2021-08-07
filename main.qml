@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
+import "Components"
 
 
 Window {
@@ -11,5 +12,10 @@ Window {
 
     ColumnLayout{
         anchors.fill: parent
+
+        Navbar{
+            Layout.fillWidth: true
+            implicitHeight: 64
+        }
     }
 }
