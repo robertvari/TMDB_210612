@@ -24,18 +24,23 @@ class MovieList(QAbstractListModel):
     def __init__(self):
         super(MovieList, self).__init__()
 
+        self.pool = QThreadPool()
+        self.pool.setMaxThreadCount(1)
+
         self._items = []
         self._fetch()
 
     def _fetch(self):
         self._items.clear()
 
-        # for movie_data in self._movies.popular()["results"]:
-        #     self._insert_movie(self._serializer(movie_data))
+        self.movie_list_worker = MovieListWorker()
+        self.movie_list_worker.signals.movie_data_downloaded.connect(self._insert_movie)
+        self.pool.start(self.movie_list_worker)
 
     def _insert_movie(self, movie_data):
+        print(movie_data)
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
-        self._items.append(movie_data)
+        self._items.append(self._serializer(movie_data))
         self.endInsertRows()
 
     def _serializer(self, movie_data):
@@ -97,11 +102,11 @@ class MovieListWorker(QRunnable):
         if not os.path.exists(CACHE_FOLDER):
             os.makedirs(CACHE_FOLDER)
 
-        for movie_data in self._movies.popular(page=1):
+        for movie_data in self._movies.popular(page=1)["results"]:
             if not self._check_movie(movie_data):
                 continue
 
-            local_poster_path = download_image(movie_data["poster_path"])
+            local_poster_path = download_image(movie_data["poster_path"], CACHE_FOLDER)
             if not local_poster_path:
                 continue
 
@@ -119,6 +124,4 @@ class MovieListWorker(QRunnable):
 
 
 if __name__ == '__main__':
-    movies = tmdb.Movies()
-    for i in movies.popular()["results"]:
-        print(i)
+    MovieList()
