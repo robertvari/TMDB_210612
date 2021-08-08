@@ -2,8 +2,12 @@ import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, QThreadPool, Signal
 import os
+from os.path import expanduser
 
-# get absolute path to .env
+USER_HOME = expanduser("~")
+CACHE_FOLDER = os.path.join(USER_HOME, "TMDB_CACHE")
+
+# get absolute path ("~to .env
 ENV_PATH = os.path.dirname(__file__).replace("Modules", ".env")
 
 # load .env to os env
@@ -18,7 +22,6 @@ class MovieList(QAbstractListModel):
 
     def __init__(self):
         super(MovieList, self).__init__()
-        self._movies = tmdb.Movies()
 
         self._items = []
         self._fetch()
@@ -26,8 +29,8 @@ class MovieList(QAbstractListModel):
     def _fetch(self):
         self._items.clear()
 
-        for movie_data in self._movies.popular()["results"]:
-            self._insert_movie(self._serializer(movie_data))
+        # for movie_data in self._movies.popular()["results"]:
+        #     self._insert_movie(self._serializer(movie_data))
 
     def _insert_movie(self, movie_data):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
@@ -68,6 +71,41 @@ class MovieListWorker(QRunnable):
     def __init__(self):
         super(MovieListWorker, self).__init__()
         self.signals = WorkerSignals()
+
+        self._movies = tmdb.Movies()
+        self._is_working = False
+
+    def _check_movie(self, movie_data):
+        if not movie_data.get("poster_path"):
+            return False
+
+        if not movie_data.get("vote_average"):
+            return False
+
+        if not movie_data.get("backdrop_path"):
+            return False
+
+        if not movie_data.get("release_date"):
+            return False
+
+        return True
+
+    def _cache_data(self):
+        self.signals.download_process_started.emit()
+
+        if not os.path.exists(CACHE_FOLDER):
+            os.makedirs(CACHE_FOLDER)
+
+        for movie_data in self._movies.popular(page=1):
+            if not self._check_movie(movie_data):
+                continue
+
+
+
+    def run(self):
+        print("Download started...")
+        self._is_working = True
+        self._cache_data()
 
 
 if __name__ == '__main__':
