@@ -1,6 +1,7 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
-from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, QThreadPool, Signal
+from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
+    QThreadPool, Signal, QUrl
 import os
 from os.path import expanduser
 from Utilities.downloader import download_image
@@ -38,7 +39,6 @@ class MovieList(QAbstractListModel):
         self.pool.start(self.movie_list_worker)
 
     def _insert_movie(self, movie_data):
-        print(movie_data)
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self._items.append(self._serializer(movie_data))
         self.endInsertRows()
@@ -46,7 +46,7 @@ class MovieList(QAbstractListModel):
     def _serializer(self, movie_data):
         return {
             "id": movie_data["id"],
-            "poster": movie_data["poster_path"],
+            "poster": QUrl().fromLocalFile(movie_data["local_poster"]),
             "title": movie_data["title"],
             "date": movie_data["release_date"],
             "rating": movie_data["vote_average"] * 10
