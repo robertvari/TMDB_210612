@@ -66,6 +66,6 @@ Rectangle {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
 
-        onClicked: print("Open movie details...")
+        onClicked: main_layout.state = "details"
     }
 }
