@@ -11,14 +11,16 @@ Window {
     title: qsTr("TMDB")
 
     ColumnLayout{
+        id: main_layout
         anchors.fill: parent
+        state: "list"
 
         states: [
             State {
                 name: "details"
                 PropertyChanges {
-                    target: movie_list_layout
-                    visible: false
+                    target: movie_details
+                    visible: true
                 }
             },
             State {
@@ -41,6 +43,7 @@ Window {
             id: movie_list_layout
             Layout.fillHeight: true
             Layout.fillWidth: true
+            visible: false
 
             // search SearchBar
             SearchBar{
@@ -55,6 +58,13 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
             }
+        }
+
+        MovieDetails{
+            id: movie_details
+            visible: false
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         }
     }
 }
