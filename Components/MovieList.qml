@@ -1,12 +1,10 @@
 import QtQuick 2.0
 
 
-Rectangle {
-
-
+Item {
 
     GridView{
-        id: grid_view
+        id: movie_list_view
         anchors.fill: parent
         clip: true
 
@@ -15,8 +13,8 @@ Rectangle {
         cellHeight: 383
 
         delegate: MovieCard{
-            width: grid_view.cellWidth - 10
-            height: grid_view.cellHeight - 10
+            width: movie_list_view.cellWidth - 10
+            height: movie_list_view.cellHeight - 10
         }
     }
 }
