@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import "Widgets"
 
 Rectangle {
+    id: root
+
+    property string movie_title: "Movie Title"
+
     radius: 5
     border.color: Qt.rgba(0, 0, 0, 0.1)
     clip: true
@@ -42,7 +46,7 @@ Rectangle {
                 anchors.margins: 10
 
                 Text{
-                    text: "Black Widow"
+                    text: root.title
                     font.pixelSize: 16
                     font.bold: true
                 }

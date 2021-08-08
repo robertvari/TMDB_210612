@@ -25,10 +25,9 @@ class MovieList(QAbstractListModel):
 
     def _fetch(self):
         self._items.clear()
-        popular_movies = self._movies.popular()
 
-        for i in popular_movies["results"]:
-            self._insert_movie(self._serializer(i))
+        for movie_data in self._movies.popular()["results"]:
+            self._insert_movie(self._serializer(movie_data))
 
     def _insert_movie(self, movie_data):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
@@ -41,7 +40,7 @@ class MovieList(QAbstractListModel):
             "poster": movie_data["poster_path"],
             "title": movie_data["title"],
             "date": movie_data["release_date"],
-            "rating": movie_data["vote_average"]
+            "rating": movie_data["vote_average"] * 10
         }
 
     def data(self, index, role=Qt.DisplayRole):

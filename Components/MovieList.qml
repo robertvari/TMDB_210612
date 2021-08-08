@@ -15,6 +15,8 @@ Item {
         delegate: MovieCard{
             width: movie_list_view.cellWidth - 10
             height: movie_list_view.cellHeight - 10
+
+            movie_title: movie_item.title
         }
     }
 }
