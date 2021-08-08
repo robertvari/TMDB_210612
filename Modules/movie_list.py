@@ -173,6 +173,7 @@ class MovieListWorker(QRunnable):
                 continue
 
             movie_data["local_poster"] = local_poster_path
+            #print(movie_data)
             self.signals.movie_data_downloaded.emit(movie_data)
 
         print("Download stopped.")

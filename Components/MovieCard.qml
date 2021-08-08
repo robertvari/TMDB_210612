@@ -6,6 +6,9 @@ Rectangle {
     id: root
 
     property string movie_title: "Black Widow"
+    property string movie_date: ""
+    property int movie_rating: 0
+    property string movie_id: ""
 
     radius: 5
     border.color: Qt.rgba(0, 0, 0, 0.1)
@@ -31,8 +34,7 @@ Rectangle {
             PopularityProgress{
                 x: 5
                 anchors.bottom: parent.bottom
-
-                percentage: 75
+                percentage: root.movie_rating
             }
         }
 
@@ -52,7 +54,7 @@ Rectangle {
                 }
 
                 Text{
-                    text: "Jul 07, 2021"
+                    text: root.movie_date
                     color: "#888888"
                     font.pixelSize: 16
                 }
