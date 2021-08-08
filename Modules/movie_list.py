@@ -72,6 +72,9 @@ class WorkerSignals(QObject):
     download_process_finished = Signal()
     movie_data_downloaded = Signal(dict)
 
+    def __init__(self):
+        super(WorkerSignals, self).__init__()
+
 
 class MovieListWorker(QRunnable):
     def __init__(self):
