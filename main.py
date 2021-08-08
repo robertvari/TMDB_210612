@@ -19,7 +19,7 @@ class TMDB:
         self.resource_loader = Resources()
         self.context.setContextProperty("Resources", self.resource_loader)
 
-        self.movie_list = BaseListModel()
+        self.movie_list = MovieList()
         self.context.setContextProperty("MovieList", self.movie_list)
 
         self.engine.load(os.fspath(Path(__file__).resolve().parent / "main.qml"))

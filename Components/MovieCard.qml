@@ -5,7 +5,7 @@ import "Widgets"
 Rectangle {
     id: root
 
-    property string movie_title: "Movie Title"
+    property string movie_title: "Black Widow"
 
     radius: 5
     border.color: Qt.rgba(0, 0, 0, 0.1)
@@ -46,7 +46,7 @@ Rectangle {
                 anchors.margins: 10
 
                 Text{
-                    text: root.title
+                    text: root.movie_title
                     font.pixelSize: 16
                     font.bold: true
                 }

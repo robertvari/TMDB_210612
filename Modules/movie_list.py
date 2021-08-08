@@ -1,7 +1,7 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
-    QThreadPool, Signal, QUrl
+    QThreadPool, Signal, QUrl, Property
 import os
 from os.path import expanduser
 from Utilities.downloader import download_image
@@ -79,6 +79,7 @@ class BaseListModel(QAbstractListModel):
 
 class MovieList(QAbstractListModel):
     DataRole = Qt.UserRole
+    movie_list_changed = Signal()
 
     def __init__(self):
         super(MovieList, self).__init__()
