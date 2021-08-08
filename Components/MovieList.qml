@@ -8,7 +8,7 @@ Item {
         anchors.fill: parent
         clip: true
 
-        model: 100
+        model: MovieList
         cellWidth: 210
         cellHeight: 383
 

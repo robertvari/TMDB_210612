@@ -1,5 +1,6 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
+from PySide6.QtCore import QAbstractListModel
 import os
 
 # get absolute path to .env
@@ -11,8 +12,22 @@ load_dotenv(ENV_PATH)
 # configure our API_KEY
 tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 
-movies = tmdb.Movies()
-result = movies.popular()
 
-for i in result["results"]:
-    print(i)
+class MovieList(QAbstractListModel):
+    def __init__(self):
+        super(MovieList, self).__init__()
+        self._movies = tmdb.Movies()
+
+        self._items = []
+        self._fetch()
+
+    def _fetch(self):
+        self._items.clear()
+        popular_movies = self._movies.popular()
+
+        for i in popular_movies["results"]:
+            self._items.append(i)
+
+
+if __name__ == '__main__':
+    MovieList()
