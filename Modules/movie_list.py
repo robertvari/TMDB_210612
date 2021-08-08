@@ -1,6 +1,6 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
-from PySide6.QtCore import QAbstractListModel
+from PySide6.QtCore import QAbstractListModel, Qt
 import os
 
 # get absolute path to .env
@@ -14,6 +14,8 @@ tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 
 
 class MovieList(QAbstractListModel):
+    DataRole = Qt.UserRole
+
     def __init__(self):
         super(MovieList, self).__init__()
         self._movies = tmdb.Movies()
@@ -27,6 +29,11 @@ class MovieList(QAbstractListModel):
 
         for i in popular_movies["results"]:
             self._items.append(i)
+
+    def data(self, index, role=Qt.DisplayRole):
+        row = index.row()
+        if role == MovieList.DataRole:
+            return self._items[row]
 
 
 if __name__ == '__main__':
