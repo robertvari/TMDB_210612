@@ -9,7 +9,6 @@ def download_image(image_url, cache_folder, backdrop=False):
         return poster_path
 
     poster_url = f"https://image.tmdb.org/t/p/w300{image_url}"
-    print(poster_url)
 
     response = requests.get(poster_url, stream=True)
 

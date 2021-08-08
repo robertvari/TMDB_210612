@@ -101,7 +101,11 @@ class MovieListWorker(QRunnable):
             if not self._check_movie(movie_data):
                 continue
 
-            movie_data["local_poster"] = download_image(movie_data["poster_path"])
+            local_poster_path = download_image(movie_data["poster_path"])
+            if not local_poster_path:
+                continue
+
+            movie_data["local_poster"] = local_poster_path
             self.signals.movie_data_downloaded.emit(movie_data)
 
         print("Download stopped.")
