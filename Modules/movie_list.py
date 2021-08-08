@@ -49,7 +49,7 @@ class MovieList(QAbstractListModel):
             "poster": QUrl().fromLocalFile(movie_data["local_poster"]),
             "title": movie_data["title"],
             "date": movie_data["release_date"],
-            "rating": movie_data["vote_average"] * 10
+            "rating": int(movie_data["vote_average"] * 10)
         }
 
     def rowCount(self, parent=QModelIndex):
