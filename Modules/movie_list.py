@@ -1,6 +1,6 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
-from PySide6.QtCore import QAbstractListModel, Qt
+from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex
 import os
 
 # get absolute path to .env
@@ -34,6 +34,14 @@ class MovieList(QAbstractListModel):
         row = index.row()
         if role == MovieList.DataRole:
             return self._items[row]
+
+    def roleNames(self):
+        return {
+            MovieList.DataRole: b'movie_item'
+        }
+
+    def rowCount(self, parent=QModelIndex):
+        return len(self._items)
 
 
 if __name__ == '__main__':
