@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, QThreadPool, Signal
 import os
 from os.path import expanduser
+from Utilities.downloader import download_image
 
 USER_HOME = expanduser("~")
 CACHE_FOLDER = os.path.join(USER_HOME, "TMDB_CACHE")
