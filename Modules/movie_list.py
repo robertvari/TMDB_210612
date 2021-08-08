@@ -1,6 +1,6 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
-from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex
+from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, QThreadPool, Signal
 import os
 
 # get absolute path to .env
@@ -43,6 +43,9 @@ class MovieList(QAbstractListModel):
             "rating": movie_data["vote_average"] * 10
         }
 
+    def rowCount(self, parent=QModelIndex):
+        return len(self._items)
+
     def data(self, index, role=Qt.DisplayRole):
         row = index.row()
         if role == MovieList.DataRole:
@@ -53,8 +56,18 @@ class MovieList(QAbstractListModel):
             MovieList.DataRole: b'movie_item'
         }
 
-    def rowCount(self, parent=QModelIndex):
-        return len(self._items)
+
+class WorkerSignals(QObject):
+    download_process_started = Signal()
+    download_process_stopped = Signal()
+    download_process_finished = Signal()
+    movie_data_downloaded = Signal(dict)
+
+
+class MovieListWorker(QRunnable):
+    def __init__(self):
+        super(MovieListWorker, self).__init__()
+        self.signals = WorkerSignals()
 
 
 if __name__ == '__main__':
