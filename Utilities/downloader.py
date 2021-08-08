@@ -18,4 +18,8 @@ def download_image(image_url, cache_folder, backdrop=False):
             response.raw.decode_content = True
             shutil.copyfileobj(response.raw, f)
 
-    return poster_path
+        return poster_path
+
+
+if __name__ == '__main__':
+    download_image("/uHA5COgDzcxjpYSHHulrKVl6ByL.jpg", r"C:\Work\_PythonSuli\pycore-210612\workshop2\cache_folder")

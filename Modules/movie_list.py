@@ -115,4 +115,6 @@ class MovieListWorker(QRunnable):
 
 
 if __name__ == '__main__':
-    MovieList()
+    movies = tmdb.Movies()
+    for i in movies.popular()["results"]:
+        print(i)
