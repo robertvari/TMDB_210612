@@ -36,8 +36,12 @@ Item {
                     text: "( " + movie_item.date + " )"
                 }
 
-                Item{
+
+
+                Text{
+                    text: movie_item.overview
                     Layout.fillWidth: true
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 PopularityProgress{
