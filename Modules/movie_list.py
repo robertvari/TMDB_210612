@@ -1,8 +1,8 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
-    QThreadPool, Signal, QUrl, Property
-import os
+    QThreadPool, Signal, QUrl
+import os, time
 from os.path import expanduser
 from Utilities.downloader import download_image
 
@@ -17,64 +17,6 @@ load_dotenv(ENV_PATH)
 
 # configure our API_KEY
 tmdb.API_KEY = os.getenv("TMDB_API_KEY")
-
-
-# detailed Abstract list model
-class BaseListModel(QAbstractListModel):
-    DataRole = Qt.UserRole
-    DisplayRole = Qt.UserRole + 1
-
-    def __init__(self):
-        super(BaseListModel, self).__init__()
-        self.items = []
-
-    def reset(self):
-        self.beginResetModel()
-        self.items.clear()
-        self.endResetModel()
-
-    def insert_item(self, data):
-        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
-        self.items.append(data)
-        self.endInsertRows()
-
-    def insert_with_index(self, index, data):
-        self.beginInsertRows(QModelIndex(), index, index)
-        self.items.insert(index, data)
-        self.endInsertRows()
-
-    def edit_item(self, row, data):
-        index = self.index(row, 0)
-        self.items[row] = data
-        self.dataChanged.emit(index, index, self.roleNames())
-
-    def delete_item(self, row):
-        self.beginRemoveRows(QModelIndex(), row, row)
-        del self.items[row]
-        self.endRemoveRows()
-
-    def rowCount(self, parent=QModelIndex()):
-        return len(self.items)
-
-    def roleNames(self):
-        return {
-            BaseListModel.DataRole: b'item',
-            BaseListModel.DisplayRole: b'text',
-        }
-
-    def data(self, index, role):
-        if not index.isValid():
-            return None
-
-        row = index.row()
-        if row < 0 or row >= len(self.items):
-            return None
-        else:
-            if role == BaseListModel.DataRole:
-                return self.items[row]
-
-            elif role == BaseListModel.DisplayRole:
-                return self.items[row]["name"]
 
 
 class MovieList(QAbstractListModel):
@@ -98,6 +40,7 @@ class MovieList(QAbstractListModel):
         self.pool.start(self.movie_list_worker)
 
     def _insert_movie(self, movie_data):
+        print(movie_data)
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self._items.append(self._serializer(movie_data))
         self.endInsertRows()
@@ -175,6 +118,8 @@ class MovieListWorker(QRunnable):
             movie_data["local_poster"] = local_poster_path
             #print(movie_data)
             self.signals.movie_data_downloaded.emit(movie_data)
+
+            time.sleep(2)
 
         print("Download stopped.")
         self.signals.download_process_finished.emit()
