@@ -26,24 +26,30 @@ Item {
                     source: movie_item.poster
                 }
 
-                Text{
-                    text: movie_item.title
-                    font.bold: true
-                    font.pixelSize: 24
-                }
-
-                Text{
-                    text: "( " + movie_item.date + " )"
-                }
-
-
-
-                Text{
-                    text: movie_item.overview
+                ColumnLayout{
+                    Layout.fillHeight: true
                     Layout.fillWidth: true
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
+                    RowLayout{
+                        Text{
+                            text: movie_item.title
+                            font.bold: true
+                            font.pixelSize: 24
+                        }
+
+                        Text{
+                            text: "( " + movie_item.date + " )"
+                        }
+                    }
+
+                    Text{
+                        text: movie_item.overview
+                        Layout.fillWidth: true
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    }
                 }
 
+                // movie rating
                 PopularityProgress{
                     percentage: movie_item.rating
                 }
