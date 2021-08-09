@@ -40,7 +40,6 @@ class MovieList(QAbstractListModel):
         self.pool.start(self.movie_list_worker)
 
     def _insert_movie(self, movie_data):
-        print(movie_data)
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self._items.append(self._serializer(movie_data))
         self.endInsertRows()

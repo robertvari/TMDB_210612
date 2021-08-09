@@ -9,6 +9,7 @@ Rectangle {
     property string movie_date: ""
     property int movie_rating: 0
     property string movie_id: ""
+    property string movie_poster: ""
 
     radius: 5
     border.color: Qt.rgba(0, 0, 0, 0.1)
@@ -24,7 +25,7 @@ Rectangle {
             Layout.fillHeight: true
 
             Image{
-                source: Resources.get_image("poster.jpg")
+                source: root.movie_poster
                 sourceSize: Qt.size(poster_rect.width - 10, poster_rect.height)
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 5
