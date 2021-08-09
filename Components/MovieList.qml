@@ -1,25 +1,51 @@
 import QtQuick 2.0
-
+import QtQuick.Layouts
+import "Widgets"
 
 Item {
-    GridView{
-        id: movie_list_view
+    ListView{
+        id: list_view
         anchors.fill: parent
+        model: MovieListModel
+        spacing: 5
         clip: true
 
-        model: MovieListModel
-        cellWidth: 210
-        cellHeight: 383
+        delegate: Rectangle{
+            id: delegate
+            width: list_view.width
+            height: 150
+            border.color: Qt.rgba(0, 0, 0, 0.2)
+            radius: 5
 
-        delegate: MovieCard{
-            width: movie_list_view.cellWidth - 10
-            height: movie_list_view.cellHeight - 10
+            RowLayout{
+                anchors.fill: parent
 
-            movie_title: movie_item.title
-            movie_date: movie_item.date
-            movie_rating: movie_item.rating
-            movie_id: movie_item.id
-            movie_poster: movie_item.poster
+                // poster here
+                Image{
+                    sourceSize: Qt.size(delegate.height -5, delegate.height -5)
+                    source: movie_item.poster
+                }
+
+                Text{
+                    text: movie_item.title
+                    font.bold: true
+                    font.pixelSize: 24
+                }
+
+                Text{
+                    text: "( " + movie_item.date + " )"
+                }
+
+                Item{
+                    Layout.fillWidth: true
+                }
+
+                PopularityProgress{
+                    percentage: movie_item.rating
+                }
+            }
+
+
         }
     }
 }

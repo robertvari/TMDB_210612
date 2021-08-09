@@ -118,8 +118,6 @@ class MovieListWorker(QRunnable):
             #print(movie_data)
             self.signals.movie_data_downloaded.emit(movie_data)
 
-            time.sleep(2)
-
         print("Download stopped.")
         self.signals.download_process_finished.emit()
         self._is_working = False

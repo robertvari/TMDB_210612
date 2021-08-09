@@ -53,8 +53,13 @@ Window {
             }
 
             // movie List
-            MovieList{
+            MovieListGrid{
                 id: movie_list
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
+            MovieList{
                 Layout.fillHeight: true
                 Layout.fillWidth: true
             }
