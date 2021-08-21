@@ -37,19 +37,17 @@ Rectangle {
             Layout.fillWidth: true
         }
 
-        Image{
-            source: Resources.get_image("refresh.svg")
-            sourceSize: Qt.size(30, 30)
+        IconButton{
+            icon: Resources.get_image("grid_view.svg")
+            size: 40
         }
 
-        Image{
-            source: Resources.get_image("refresh.svg")
-            sourceSize: Qt.size(30, 30)
+        IconButton{
+            icon: Resources.get_image("list_view.svg")
         }
 
-        Image{
-            source: Resources.get_image("refresh.svg")
-            sourceSize: Qt.size(30, 30)
+        IconButton{
+            icon: Resources.get_image("refresh.svg")
         }
     }
 }
