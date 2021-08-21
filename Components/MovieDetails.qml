@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
-import "Widgets"
 
+import "Widgets"
 Item {
     ColumnLayout{
         anchors.fill: parent
@@ -11,9 +11,19 @@ Item {
             implicitHeight: 570
             color: "black"
 
+            Image{
+                source: MovieDetailsModel.backdrop
+                opacity: 0.3
+
+                width: parent.width
+                height: parent.height
+                fillMode: Image.PreserveAspectCrop
+            }
+
 
             RowLayout{
                 anchors.fill: parent
+                anchors.leftMargin: 20
 
                 Item{
                     id: poster_container
