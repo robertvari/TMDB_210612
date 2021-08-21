@@ -16,13 +16,60 @@ Item {
                 anchors.fill: parent
 
                 Item{
+                    id: poster_container
                     Layout.fillHeight: true
-                    Layout.minimumWidth: 500
+                    Layout.minimumWidth: 400
 
                     Image{
                         source: MovieDetailsModel.poster
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
+                    }
+                }
+
+                ColumnLayout{
+                    id: movie_title_container
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.rightMargin: 20
+
+                    Text{
+                        text: MovieDetailsModel.title
+                        color: "white"
+                        font.pixelSize: 40
+                        font.bold: true
+                    }
+
+                    Text{
+                        text: MovieDetailsModel.release_date + " | " + MovieDetailsModel.genres + " | " + MovieDetailsModel.runtime
+                        color: "white"
+                        font.pixelSize: 16
+                    }
+
+                    PopularityProgress{
+                        percentage: MovieDetailsModel.vote_average
+                    }
+
+                    Text{
+                        text: MovieDetailsModel.tagline
+                        color: "#999999"
+                        font.pixelSize: 16
+                        font.italic: true
+                    }
+
+                    Text{
+                        text: "Overview"
+                        color: "white"
+                        font.pixelSize: 20
+                        font.bold: true
+                    }
+
+                    Text{
+                        text: MovieDetailsModel.overview
+                        color: "white"
+                        font.pixelSize: 16
+                        Layout.fillWidth: true
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
                 }
             }

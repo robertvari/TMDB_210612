@@ -104,15 +104,16 @@ class MovieDetails(QObject):
         return self._release_date
 
     def _get_language(self):
-        self._original_language
+        return self._original_language
 
     def _get_genres(self):
-        self._genres
+        return self._genres
 
     def _get_runtime(self):
         return self._runtime
 
     def _get_vote_average(self):
+        print(self._vote_average, type(self._vote_average))
         return self._vote_average
 
     def _get_poster(self):
