@@ -8,6 +8,7 @@ from PySide6.QtQml import QQmlApplicationEngine
 
 from Modules.resource_loader import Resources
 from Modules.movie_list import MovieList
+from Modules.movie_details import MovieDetails
 
 
 class TMDB:
@@ -21,6 +22,9 @@ class TMDB:
 
         self.movie_list = MovieList()
         self.context.setContextProperty("MovieListModel", self.movie_list)
+
+        self.movie_details = MovieDetails()
+        self.context.setContextProperty("MovieDetailsModel", self.movie_details)
 
         self.engine.load(os.fspath(Path(__file__).resolve().parent / "main.qml"))
         if not self.engine.rootObjects():

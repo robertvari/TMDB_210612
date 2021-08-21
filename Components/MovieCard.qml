@@ -69,6 +69,10 @@ Rectangle {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
 
-        onClicked: main_layout.state = "details"
+        onClicked: {
+            main_layout.state = "details"
+
+            MovieDetailsModel.set_movie(root.movie_id)
+        }
     }
 }
