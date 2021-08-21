@@ -4,7 +4,8 @@ Rectangle {
     color: "lightblue"
 
     Text{
-        text: "Movie Details page"
+        text: MovieDetailsModel.title
         anchors.centerIn: parent
+        font.pixelSize: 30
     }
 }
