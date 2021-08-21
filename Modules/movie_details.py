@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from os.path import expanduser
 from datetime import datetime, timedelta
+from Utilities.downloader import download_image
 
 
 USER_HOME = expanduser("~")
@@ -68,7 +69,8 @@ class MovieDetails(QObject):
         self._title = response.get("title")
         self._tagline = response.get("tagline")
 
-        # todo poster and backdrop!
+        self._poster = self._get_poster_path(response.get("poster_path"))
+        self._backdrop = self._get_backdrop_path(response.get("backdrop_path"))
 
         self._overview = response.get("overview")
         self._release_date = get_formatted_date()
@@ -78,6 +80,19 @@ class MovieDetails(QObject):
         self._genres = get_formatted_genres()
 
         self.movie_loaded.emit()
+
+    def _get_poster_path(self, url):
+        file_name = url[1:]
+        local_path = os.path.join(CACHE_FOLDER, file_name)
+
+        if os.path.exists(local_path):
+            return QUrl().fromLocalFile(local_path)
+
+        local_path = download_image(url, CACHE_FOLDER)
+        return QUrl().fromLocalFile(local_path)
+
+    def _get_backdrop_path(self, url):
+        return QUrl()
 
     def _get_title(self):
         return self._title
