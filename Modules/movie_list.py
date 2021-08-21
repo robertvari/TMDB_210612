@@ -2,7 +2,7 @@ import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
     QThreadPool, Signal, QUrl
-import os, time
+import os
 from os.path import expanduser
 from Utilities.downloader import download_image
 
