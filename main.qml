@@ -34,8 +34,28 @@ Window {
 
         // navbar
         Navbar{
+            id: navbar
             Layout.fillWidth: true
             implicitHeight: 64
+            state: "grid_view"
+
+            states: [
+                State {
+                    name: "list_view"
+                    PropertyChanges {
+                        target: movie_list_view
+                        visible: true
+                    }
+                },
+
+                State {
+                    name: "grid_view"
+                    PropertyChanges {
+                        target: movie_grid_view
+                        visible: true
+                    }
+                }
+            ]
         }
 
         // Search and Movie list layout
@@ -54,14 +74,17 @@ Window {
 
             // movie List
             MovieListGrid{
-                id: movie_list
+                id: movie_grid_view
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                visible: false
             }
 
             MovieList{
+                id: movie_list_view
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                visible: false
             }
         }
 

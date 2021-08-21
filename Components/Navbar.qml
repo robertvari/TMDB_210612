@@ -41,13 +41,13 @@ Rectangle {
             icon: Resources.get_image("grid_view.svg")
             size: 40
 
-            onClicked: print("grid_view clicked")
+            onClicked: navbar.state = "grid_view"
         }
 
         IconButton{
             icon: Resources.get_image("list_view.svg")
 
-            onClicked: print("list_view clicked")
+            onClicked: navbar.state = "list_view"
         }
 
         IconButton{
