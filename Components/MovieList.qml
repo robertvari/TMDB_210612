@@ -55,7 +55,15 @@ Item {
                 }
             }
 
+            MouseArea{
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
 
+                onClicked: {
+                    main_layout.state = "details"
+                    MovieDetailsModel.set_movie(movie_item.id)
+                }
+            }
         }
     }
 }
