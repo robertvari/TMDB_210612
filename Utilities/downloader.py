@@ -10,6 +10,9 @@ def download_image(image_url, cache_folder, backdrop=False):
 
     poster_url = f"https://image.tmdb.org/t/p/w300{image_url}"
 
+    if backdrop:
+        poster_url = f"https://image.tmdb.org/t/p/w1920_and_h800_multi_faces{image_url}"
+
     response = requests.get(poster_url, stream=True)
 
     if response.status_code == 200:

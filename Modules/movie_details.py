@@ -82,17 +82,13 @@ class MovieDetails(QObject):
         self.movie_loaded.emit()
 
     def _get_poster_path(self, url):
-        file_name = url[1:]
-        local_path = os.path.join(CACHE_FOLDER, file_name)
-
-        if os.path.exists(local_path):
-            return QUrl().fromLocalFile(local_path)
-
         local_path = download_image(url, CACHE_FOLDER)
         return QUrl().fromLocalFile(local_path)
 
     def _get_backdrop_path(self, url):
-        return QUrl()
+        local_path = download_image(url, CACHE_FOLDER, backdrop=True)
+        print(local_path)
+        return QUrl().fromLocalFile(local_path)
 
     def _get_title(self):
         return self._title
