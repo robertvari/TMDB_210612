@@ -40,12 +40,14 @@ Rectangle {
         IconButton{
             icon: Resources.get_image("grid_view.svg")
             size: 40
+            visible: navbar.state === "list_view"
 
             onClicked: navbar.state = "grid_view"
         }
 
         IconButton{
             icon: Resources.get_image("list_view.svg")
+            visible: navbar.state === "grid_view"
 
             onClicked: navbar.state = "list_view"
         }
