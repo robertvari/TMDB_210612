@@ -37,7 +37,16 @@ Rectangle {
             Layout.fillWidth: true
         }
 
-        // refresh button
+        Image{
+            source: Resources.get_image("refresh.svg")
+            sourceSize: Qt.size(30, 30)
+        }
+
+        Image{
+            source: Resources.get_image("refresh.svg")
+            sourceSize: Qt.size(30, 30)
+        }
+
         Image{
             source: Resources.get_image("refresh.svg")
             sourceSize: Qt.size(30, 30)
