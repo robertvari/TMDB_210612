@@ -2,49 +2,33 @@ import QtQuick
 import QtQuick.Layouts
 import "Widgets"
 
-Rectangle {
-    color: "lightblue"
-
+Item {
     ColumnLayout{
-        Text{
-            text: MovieDetailsModel.title
-            font.pixelSize: 30
+        anchors.fill: parent
+
+        Rectangle{
+            Layout.fillWidth: true
+            implicitHeight: 570
+            color: "black"
+
+
+            RowLayout{
+                anchors.fill: parent
+
+                Item{
+                    Layout.fillHeight: true
+                    Layout.minimumWidth: 500
+
+                    Image{
+                        source: MovieDetailsModel.poster
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                    }
+                }
+            }
         }
 
-        Image{
-            source: MovieDetailsModel.poster
-        }
 
-        Image{
-            source: MovieDetailsModel.backdrop
-        }
-
-        Text{
-            text: MovieDetailsModel.overview
-        }
-
-        Text{
-            text: MovieDetailsModel.tagline
-        }
-
-        Text{
-            text: MovieDetailsModel.release_date
-        }
-
-        Text{
-            text: MovieDetailsModel.language
-        }
-
-        Text{
-            text: MovieDetailsModel.genres
-        }
-
-        Text{
-            text: MovieDetailsModel.runtime
-        }
-
-        PopularityProgress{
-            percentage: MovieDetailsModel.vote_average
-        }
+        Item{Layout.fillHeight: true}
     }
 }
