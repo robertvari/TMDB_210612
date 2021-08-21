@@ -85,13 +85,31 @@ class MovieDetails(QObject):
     def _get_overview(self):
         return self._overview
 
+    def _get_tagline(self):
+        return self._tagline
+
+    def _get_date(self):
+        return self._release_date
+
+    def _get_language(self):
+        self._original_language
+
+    def _get_genres(self):
+        self._genres
+
+    def _get_runtime(self):
+        return self._runtime
+
+    def _get_vote_average(self):
+        return self._vote_average
+
     title = Property(str, _get_title, notify=movie_loaded)
     overview = Property(str, _get_overview, notify=movie_loaded)
-    # tagline = Property(str, _get_tagline, notify=movie_loaded)
-    # release_date = Property(str, _get_date, notify=movie_loaded)
+    tagline = Property(str, _get_tagline, notify=movie_loaded)
+    release_date = Property(str, _get_date, notify=movie_loaded)
     # poster = Property(QUrl, _get_poster, notify=movie_loaded)
     # backdrop = Property(QUrl, _get_backdrop, notify=movie_loaded)
-    # language = Property(str, _get_language, notify=movie_loaded)
-    # genres = Property(str, _get_genres, notify=movie_loaded)
-    # runtime = Property(str, _get_runtime, notify=movie_loaded)
-    # vote_average = Property(int, _get_vote_average, notify=movie_loaded)
+    language = Property(str, _get_language, notify=movie_loaded)
+    genres = Property(str, _get_genres, notify=movie_loaded)
+    runtime = Property(str, _get_runtime, notify=movie_loaded)
+    vote_average = Property(int, _get_vote_average, notify=movie_loaded)
