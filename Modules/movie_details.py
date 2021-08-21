@@ -59,6 +59,12 @@ class MovieDetails(QObject):
             m = int(m)
             return f"{h}h {m}m"
 
+        def get_formatted_genres():
+            if not response.get("genres"):
+                return ""
+
+            return ", ".join([i["name"] for i in response.get("genres")])
+
         self._title = response.get("title")
         self._tagline = response.get("tagline")
 
@@ -69,7 +75,7 @@ class MovieDetails(QObject):
         self._runtime = get_formatted_runtime()
         self._vote_average = int(response.get("vote_average") * 10)
         self._original_language = response.get("original_language")
-        self._genres = ""
+        self._genres = get_formatted_genres()
 
         self.movie_loaded.emit()
 
