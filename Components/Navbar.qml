@@ -40,14 +40,20 @@ Rectangle {
         IconButton{
             icon: Resources.get_image("grid_view.svg")
             size: 40
+
+            onClicked: print("grid_view clicked")
         }
 
         IconButton{
             icon: Resources.get_image("list_view.svg")
+
+            onClicked: print("list_view clicked")
         }
 
         IconButton{
             icon: Resources.get_image("refresh.svg")
+
+            onClicked: print("refresh clicked")
         }
     }
 }

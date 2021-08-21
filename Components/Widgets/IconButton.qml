@@ -15,4 +15,11 @@ Item {
         source: root.icon
          sourceSize: Qt.size(root.size, root.size)
     }
+
+    MouseArea{
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+
+        onClicked: root.clicked()
+    }
 }
