@@ -11,6 +11,14 @@ Rectangle {
             font.pixelSize: 30
         }
 
+        Image{
+            source: MovieDetailsModel.poster
+        }
+
+        Image{
+            source: MovieDetailsModel.backdrop
+        }
+
         Text{
             text: MovieDetailsModel.overview
         }

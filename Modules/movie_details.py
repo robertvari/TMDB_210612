@@ -81,13 +81,14 @@ class MovieDetails(QObject):
 
         self.movie_loaded.emit()
 
-    def _get_poster_path(self, url):
+    @staticmethod
+    def _get_poster_path(url):
         local_path = download_image(url, CACHE_FOLDER)
         return QUrl().fromLocalFile(local_path)
 
-    def _get_backdrop_path(self, url):
+    @staticmethod
+    def _get_backdrop_path(url):
         local_path = download_image(url, CACHE_FOLDER, backdrop=True)
-        print(local_path)
         return QUrl().fromLocalFile(local_path)
 
     def _get_title(self):
@@ -114,12 +115,18 @@ class MovieDetails(QObject):
     def _get_vote_average(self):
         return self._vote_average
 
+    def _get_poster(self):
+        return self._poster
+
+    def _get_backdrop(self):
+        return self._backdrop
+
     title = Property(str, _get_title, notify=movie_loaded)
     overview = Property(str, _get_overview, notify=movie_loaded)
     tagline = Property(str, _get_tagline, notify=movie_loaded)
     release_date = Property(str, _get_date, notify=movie_loaded)
-    # poster = Property(QUrl, _get_poster, notify=movie_loaded)
-    # backdrop = Property(QUrl, _get_backdrop, notify=movie_loaded)
+    poster = Property(QUrl, _get_poster, notify=movie_loaded)
+    backdrop = Property(QUrl, _get_backdrop, notify=movie_loaded)
     language = Property(str, _get_language, notify=movie_loaded)
     genres = Property(str, _get_genres, notify=movie_loaded)
     runtime = Property(str, _get_runtime, notify=movie_loaded)
