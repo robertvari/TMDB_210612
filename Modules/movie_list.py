@@ -79,11 +79,15 @@ class MovieList(QAbstractListModel):
         self.endInsertRows()
 
     def _serializer(self, movie_data):
+        def get_formatted_date():
+            datetime_obj = datetime.strptime(movie_data.get("release_date"), "%Y-%m-%d")
+            return datetime_obj.strftime("%Y %b. %d")
+
         return {
             "id": movie_data["id"],
             "poster": QUrl().fromLocalFile(movie_data["local_poster"]),
             "title": movie_data["title"],
-            "date": movie_data["release_date"],
+            "date": get_formatted_date(),
             "sort_date": datetime.strptime(movie_data.get("release_date"), "%Y-%m-%d"),
             "rating": int(movie_data["vote_average"] * 10),
             "overview": movie_data["overview"]
