@@ -113,7 +113,6 @@ class MovieDetails(QObject):
         return self._runtime
 
     def _get_vote_average(self):
-        print(self._vote_average, type(self._vote_average))
         return self._vote_average
 
     def _get_poster(self):

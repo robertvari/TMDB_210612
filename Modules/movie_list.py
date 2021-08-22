@@ -2,7 +2,7 @@ import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
     QThreadPool, Signal, QUrl, Slot
-import os, shutil
+import os, shutil, time
 from os.path import expanduser
 from Utilities.downloader import download_image
 
@@ -46,6 +46,13 @@ class MovieList(QAbstractListModel):
 
     @Slot()
     def refresh_list(self):
+        # stop worker!!!
+        self.movie_list_worker.signals.download_process_stopped.connect(self._refresh_process_continues)
+        self.movie_list_worker.stop()
+
+    def _refresh_process_continues(self):
+        # wait for process finish signal
+
         # delete cache folder
         if os.path.exists(CACHE_FOLDER):
             shutil.rmtree(CACHE_FOLDER, ignore_errors=True)
@@ -116,12 +123,21 @@ class MovieListWorker(QRunnable):
         return True
 
     def _cache_data(self):
+        if not self._is_working:
+            self.signals.download_process_stopped.emit()
+            return
+
         self.signals.download_process_started.emit()
 
         if not os.path.exists(CACHE_FOLDER):
             os.makedirs(CACHE_FOLDER)
 
         for movie_data in self._movies.popular(page=1)["results"]:
+            if not self._is_working:
+                print("Download process stopped!")
+                self.signals.download_process_stopped.emit()
+                break
+
             if not self._check_movie(movie_data):
                 continue
 
@@ -130,11 +146,16 @@ class MovieListWorker(QRunnable):
                 continue
 
             movie_data["local_poster"] = local_poster_path
-            #print(movie_data)
+
+            time.sleep(1)
             self.signals.movie_data_downloaded.emit(movie_data)
 
-        print("Download stopped.")
-        self.signals.download_process_finished.emit()
+        if self._is_working:
+            print("Download finished.")
+            self.signals.download_process_finished.emit()
+            self._is_working = False
+
+    def stop(self):
         self._is_working = False
 
     def run(self):
