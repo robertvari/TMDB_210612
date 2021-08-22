@@ -33,7 +33,7 @@ class MovieDetails(QObject):
         self._overview = ""
         self._release_date = ""
         self._runtime = ""
-        self._vote_average = ""
+        self._vote_average = 0
         self._original_language = ""
         self._genres = ""
 

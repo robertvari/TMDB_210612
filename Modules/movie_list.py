@@ -1,8 +1,8 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
-    QThreadPool, Signal, QUrl
-import os
+    QThreadPool, Signal, QUrl, Slot
+import os, shutil
 from os.path import expanduser
 from Utilities.downloader import download_image
 
@@ -33,11 +33,25 @@ class MovieList(QAbstractListModel):
         self._fetch()
 
     def _fetch(self):
-        self._items.clear()
+        self._reset()
 
         self.movie_list_worker = MovieListWorker()
         self.movie_list_worker.signals.movie_data_downloaded.connect(self._insert_movie)
         self.pool.start(self.movie_list_worker)
+
+    def _reset(self):
+        self.beginResetModel()
+        self._items.clear()
+        self.endResetModel()
+
+    @Slot()
+    def refresh_list(self):
+        # delete cache folder
+        if os.path.exists(CACHE_FOLDER):
+            shutil.rmtree(CACHE_FOLDER, ignore_errors=True)
+
+        self._reset()
+        self._fetch()
 
     def _insert_movie(self, movie_data):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())

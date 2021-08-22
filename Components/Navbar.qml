@@ -55,7 +55,7 @@ Rectangle {
         IconButton{
             icon: Resources.get_image("refresh.svg")
 
-            onClicked: print("refresh clicked")
+            onClicked: MovieListModel.refresh_list()
         }
     }
 }
