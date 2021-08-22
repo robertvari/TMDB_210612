@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import "Components"
+import "Components/Widgets"
 
 
 Window {
@@ -60,10 +61,8 @@ Window {
         }
 
         // Download Progressbar
-        Rectangle{
+        DownloadProgress{
             Layout.fillWidth: true
-            implicitHeight: 10
-            color: "#05B4E3"
         }
 
         // Search and Movie list layout

@@ -1,7 +1,7 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
-    QThreadPool, Signal, QUrl, Slot
+    QThreadPool, Signal, QUrl, Slot, Property
 import os, shutil, time
 from os.path import expanduser
 from Utilities.downloader import download_image
@@ -22,6 +22,7 @@ tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 class MovieList(QAbstractListModel):
     DataRole = Qt.UserRole
     movie_list_changed = Signal()
+    download_progress_changed = Signal()
 
     def __init__(self):
         super(MovieList, self).__init__()
@@ -36,10 +37,16 @@ class MovieList(QAbstractListModel):
     def _fetch(self):
         self._reset()
 
+        self.download_progress_changed.emit()
+
         self.movie_list_worker = MovieListWorker()
         self.movie_list_worker.signals.download_process_stopped.connect(self._refresh_process_continues)
         self.movie_list_worker.signals.movie_data_downloaded.connect(self._insert_movie)
+        self.movie_list_worker.signals.download_process_finished.connect(self._download_process_finished)
         self.pool.start(self.movie_list_worker)
+
+    def _download_process_finished(self):
+        self.download_progress_changed.emit()
 
     def _reset(self):
         self.beginResetModel()
@@ -88,6 +95,12 @@ class MovieList(QAbstractListModel):
         return {
             MovieList.DataRole: b'movie_item'
         }
+
+    def _get_is_downloading(self):
+        print(f"_get_is_downloading {self.movie_list_worker.is_working}")
+        return self.movie_list_worker.is_working
+
+    is_downloading = Property(bool, _get_is_downloading, notify=download_progress_changed)
 
 
 class WorkerSignals(QObject):
@@ -148,13 +161,12 @@ class MovieListWorker(QRunnable):
 
             movie_data["local_poster"] = local_poster_path
 
-            time.sleep(0.5)
+            time.sleep(0.2)
             self.signals.movie_data_downloaded.emit(movie_data)
 
-        if self.is_working:
-            print("Download finished.")
-            self.signals.download_process_finished.emit()
-            self.is_working = False
+        print("Download finished.")
+        self.is_working = False
+        self.signals.download_process_finished.emit()
 
     def stop(self):
         self.is_working = False
