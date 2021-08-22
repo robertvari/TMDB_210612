@@ -12,7 +12,9 @@ Rectangle {
             placeholderText: "Search..."
             Layout.fillWidth: true
             font.pixelSize: 16
-            leftPadding: 20
+            leftPadding: 10
+
+            onTextChanged: MovieListModel_Proxy.set_filter(text)
         }
 
         TextLink{

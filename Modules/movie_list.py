@@ -114,7 +114,17 @@ class MovieList(QAbstractListModel):
 class MovieListProxy(QSortFilterProxyModel):
     def __init__(self):
         super(MovieListProxy, self).__init__()
+        self._filter = ""
 
+    @Slot(str)
+    def set_filter(self, movie_name):
+        self._filter = movie_name
+        self.invalidateFilter()
+
+    def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
+        movie_data = self.sourceModel()._items[source_row]
+
+        return self._filter.lower() in movie_data["title"].lower()
 
 class WorkerSignals(QObject):
     download_process_started = Signal()
@@ -174,7 +184,7 @@ class MovieListWorker(QRunnable):
 
             movie_data["local_poster"] = local_poster_path
 
-            time.sleep(0.2)
+            # time.sleep(0.2)
             self.signals.movie_data_downloaded.emit(movie_data)
 
         print("Download finished.")
