@@ -114,6 +114,8 @@ class MovieList(QAbstractListModel):
 class MovieListProxy(QSortFilterProxyModel):
     def __init__(self):
         super(MovieListProxy, self).__init__()
+        self.sort(0, Qt.AscendingOrder)
+
         self._filter = ""
         self._sort_mode = "title"
 
@@ -124,8 +126,21 @@ class MovieListProxy(QSortFilterProxyModel):
 
     @Slot(str)
     def set_current_sorting(self, sort_mode):
+        # check if sort mode is the same as previously
+        if sort_mode == self._sort_mode:
+            # check current sortOrder()
+            if self.sortOrder() == Qt.AscendingOrder:
+                self.sort(0, Qt.DescendingOrder)
+            else:
+                self.sort(0, Qt.AscendingOrder)
+        else:
+            self.sort(0, Qt.AscendingOrder)
+
         self._sort_mode = sort_mode
-        print(self._sort_mode)
+
+        self.invalidate()
+
+
 
     def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
         movie_data = self.sourceModel()._items[source_row]
