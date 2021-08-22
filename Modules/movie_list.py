@@ -4,6 +4,7 @@ from PySide6.QtCore import QAbstractListModel, QSortFilterProxyModel, Qt, QModel
     QThreadPool, Signal, QUrl, Slot, Property
 import os, shutil, time
 from os.path import expanduser
+from datetime import datetime
 from Utilities.downloader import download_image
 
 USER_HOME = expanduser("~")
@@ -83,6 +84,7 @@ class MovieList(QAbstractListModel):
             "poster": QUrl().fromLocalFile(movie_data["local_poster"]),
             "title": movie_data["title"],
             "date": movie_data["release_date"],
+            "sort_date": datetime.strptime(movie_data.get("release_date"), "%Y-%m-%d"),
             "rating": int(movie_data["vote_average"] * 10),
             "overview": movie_data["overview"]
         }
@@ -140,12 +142,19 @@ class MovieListProxy(QSortFilterProxyModel):
 
         self.invalidate()
 
-
-
     def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
         movie_data = self.sourceModel()._items[source_row]
 
         return self._filter.lower() in movie_data["title"].lower()
+
+    def lessThan(self, source_left, source_right) -> bool:
+        left_movie = self.sourceModel().data(source_left, Qt.UserRole)
+        right_movie = self.sourceModel().data(source_right, Qt.UserRole)
+
+        if self._sort_mode == "date":
+            return left_movie["sort_date"] < right_movie["sort_date"]
+
+        return left_movie[self._sort_mode] < right_movie[self._sort_mode]
 
 class WorkerSignals(QObject):
     download_process_started = Signal()
@@ -205,7 +214,7 @@ class MovieListWorker(QRunnable):
 
             movie_data["local_poster"] = local_poster_path
 
-            # time.sleep(0.2)
+            time.sleep(0.2)
             self.signals.movie_data_downloaded.emit(movie_data)
 
         print("Download finished.")

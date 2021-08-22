@@ -30,7 +30,7 @@ Rectangle {
             defaultColor: "black"
             font.pixelSize: 16
 
-            onClicked: MovieListModel_Proxy.set_current_sorting("release_date")
+            onClicked: MovieListModel_Proxy.set_current_sorting("date")
         }
 
         TextLink{
