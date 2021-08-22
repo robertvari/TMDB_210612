@@ -37,6 +37,7 @@ class MovieList(QAbstractListModel):
         self._reset()
 
         self.movie_list_worker = MovieListWorker()
+        self.movie_list_worker.signals.download_process_stopped.connect(self._refresh_process_continues)
         self.movie_list_worker.signals.movie_data_downloaded.connect(self._insert_movie)
         self.pool.start(self.movie_list_worker)
 
@@ -47,13 +48,12 @@ class MovieList(QAbstractListModel):
 
     @Slot()
     def refresh_list(self):
-        # stop worker!!!
-        self.movie_list_worker.signals.download_process_stopped.connect(self._refresh_process_continues)
-        self.movie_list_worker.stop()
+        if self.movie_list_worker.is_working:
+            self.movie_list_worker.stop()
+        else:
+            self._refresh_process_continues()
 
     def _refresh_process_continues(self):
-        # wait for process finish signal
-
         # delete cache folder
         if os.path.exists(CACHE_FOLDER):
             shutil.rmtree(CACHE_FOLDER, ignore_errors=True)
@@ -106,7 +106,7 @@ class MovieListWorker(QRunnable):
         self.signals = WorkerSignals()
 
         self._movies = tmdb.Movies()
-        self._is_working = False
+        self.is_working = False
 
     def _check_movie(self, movie_data):
         if not movie_data.get("poster_path"):
@@ -124,7 +124,7 @@ class MovieListWorker(QRunnable):
         return True
 
     def _cache_data(self):
-        if not self._is_working:
+        if not self.is_working:
             self.signals.download_process_stopped.emit()
             return
 
@@ -134,7 +134,7 @@ class MovieListWorker(QRunnable):
             os.makedirs(CACHE_FOLDER)
 
         for movie_data in self._movies.popular(page=1)["results"]:
-            if not self._is_working:
+            if not self.is_working:
                 print("Download process stopped!")
                 self.signals.download_process_stopped.emit()
                 break
@@ -148,20 +148,20 @@ class MovieListWorker(QRunnable):
 
             movie_data["local_poster"] = local_poster_path
 
-            time.sleep(1)
+            time.sleep(0.5)
             self.signals.movie_data_downloaded.emit(movie_data)
 
-        if self._is_working:
+        if self.is_working:
             print("Download finished.")
             self.signals.download_process_finished.emit()
-            self._is_working = False
+            self.is_working = False
 
     def stop(self):
-        self._is_working = False
+        self.is_working = False
 
     def run(self):
         print("Download started...")
-        self._is_working = True
+        self.is_working = True
         self._cache_data()
 
 

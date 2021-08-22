@@ -14,6 +14,7 @@ Window {
         id: main_layout
         anchors.fill: parent
         state: "list"
+        spacing: 0
 
         states: [
             State {
@@ -58,6 +59,13 @@ Window {
             ]
         }
 
+        // Download Progressbar
+        Rectangle{
+            Layout.fillWidth: true
+            implicitHeight: 10
+            color: "#05B4E3"
+        }
+
         // Search and Movie list layout
         RowLayout{
             id: movie_list_layout
@@ -69,6 +77,7 @@ Window {
             SearchBar{
                 id: search_bar
                 Layout.fillHeight: true
+                Layout.topMargin: 5
                 implicitWidth: 200
             }
 
