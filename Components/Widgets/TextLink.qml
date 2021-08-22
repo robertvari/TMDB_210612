@@ -5,6 +5,7 @@ Text {
     property string link_text: "Link Text"
     property color defaultColor: "white"
     property color hoverColor: "#c9c9c9"
+    property bool show_icon: false
 
     color: defaultColor
     font.pixelSize: 20
@@ -13,6 +14,18 @@ Text {
     text: link_text
 
     signal clicked
+
+    Image{
+        source: Resources.get_image("arrow.svg")
+        visible: root.show_icon
+        sourceSize: Qt.size(20, 20)
+
+        anchors.left: root.right
+        anchors.verticalCenter: root.verticalAlignment
+        anchors.leftMargin: 10
+
+        rotation: 180
+    }
 
     MouseArea{
         anchors.fill: parent
