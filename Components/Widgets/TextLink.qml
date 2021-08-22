@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Text {
+    id: root
     property string link_text: "Link Text"
     property color defaultColor: "white"
     property color hoverColor: "#c9c9c9"
@@ -11,6 +12,8 @@ Text {
 
     text: link_text
 
+    signal clicked
+
     MouseArea{
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
@@ -18,5 +21,7 @@ Text {
 
         onEntered: parent.color = hoverColor
         onExited: parent.color = defaultColor
+
+        onClicked: root.clicked()
     }
 }
