@@ -21,6 +21,7 @@ Rectangle {
             link_text: "Title"
             defaultColor: "black"
             font.pixelSize: 16
+            show_icon: MovieListModel_Proxy.current_sorting === "title"
 
             onClicked: MovieListModel_Proxy.set_current_sorting("title")
         }
@@ -29,6 +30,7 @@ Rectangle {
             link_text: "Release date"
             defaultColor: "black"
             font.pixelSize: 16
+            show_icon: MovieListModel_Proxy.current_sorting === "date"
 
             onClicked: MovieListModel_Proxy.set_current_sorting("date")
         }
@@ -37,6 +39,7 @@ Rectangle {
             link_text: "Rating"
             defaultColor: "black"
             font.pixelSize: 16
+            show_icon: MovieListModel_Proxy.current_sorting === "rating"
 
             onClicked: MovieListModel_Proxy.set_current_sorting("rating")
         }

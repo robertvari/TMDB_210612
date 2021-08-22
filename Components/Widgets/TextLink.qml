@@ -5,7 +5,9 @@ Text {
     property string link_text: "Link Text"
     property color defaultColor: "white"
     property color hoverColor: "#c9c9c9"
+
     property bool show_icon: false
+    property int icon_rotation: 0
 
     color: defaultColor
     font.pixelSize: 20
@@ -24,7 +26,7 @@ Text {
         anchors.verticalCenter: root.verticalAlignment
         anchors.leftMargin: 10
 
-        rotation: 180
+        rotation: MovieListModel_Proxy.sort_direction
     }
 
     MouseArea{

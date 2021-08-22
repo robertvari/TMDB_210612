@@ -118,12 +118,16 @@ class MovieList(QAbstractListModel):
 
 
 class MovieListProxy(QSortFilterProxyModel):
+    sorting_changed = Signal()
+
     def __init__(self):
         super(MovieListProxy, self).__init__()
         self.sort(0, Qt.AscendingOrder)
 
         self._filter = ""
         self._sort_mode = "title"
+
+        self.sorting_changed.emit()
 
     @Slot(str)
     def set_filter(self, movie_name):
@@ -143,7 +147,7 @@ class MovieListProxy(QSortFilterProxyModel):
             self.sort(0, Qt.AscendingOrder)
 
         self._sort_mode = sort_mode
-
+        self.sorting_changed.emit()
         self.invalidate()
 
     def filterAcceptsRow(self, source_row: int, source_parent: QModelIndex) -> bool:
@@ -159,6 +163,18 @@ class MovieListProxy(QSortFilterProxyModel):
             return left_movie["sort_date"] < right_movie["sort_date"]
 
         return left_movie[self._sort_mode] < right_movie[self._sort_mode]
+
+    def _get_current_sorting(self):
+        return self._sort_mode
+
+    def _get_sort_direction(self):
+        if self.sortOrder() == Qt.AscendingOrder:
+            return 0
+        return 180
+
+    current_sorting = Property(str, _get_current_sorting, notify=sorting_changed)
+    sort_direction = Property(int, _get_sort_direction, notify=sorting_changed)
+
 
 class WorkerSignals(QObject):
     download_process_started = Signal()
@@ -218,7 +234,7 @@ class MovieListWorker(QRunnable):
 
             movie_data["local_poster"] = local_poster_path
 
-            time.sleep(0.2)
+            # time.sleep(0.2)
             self.signals.movie_data_downloaded.emit(movie_data)
 
         print("Download finished.")
