@@ -29,7 +29,12 @@ class TMDB:
         self.engine.load(os.fspath(Path(__file__).resolve().parent / "main.qml"))
         if not self.engine.rootObjects():
             sys.exit(-1)
+
+        self.app.lastWindowClosed.connect(self._close_app)
         sys.exit(self.app.exec())
+
+    def _close_app(self):
+        self.movie_list.movie_list_worker.stop()
 
 
 if __name__ == "__main__":

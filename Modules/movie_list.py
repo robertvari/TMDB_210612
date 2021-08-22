@@ -28,6 +28,7 @@ class MovieList(QAbstractListModel):
 
         self.pool = QThreadPool()
         self.pool.setMaxThreadCount(1)
+        self.movie_list_worker = MovieListWorker()
 
         self._items = []
         self._fetch()
