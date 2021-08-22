@@ -37,9 +37,11 @@ class MovieList(QAbstractListModel):
     def _fetch(self):
         self._reset()
 
+        self.movie_list_worker = MovieListWorker()
+
+        self.movie_list_worker.is_working = True
         self.download_progress_changed.emit()
 
-        self.movie_list_worker = MovieListWorker()
         self.movie_list_worker.signals.download_process_stopped.connect(self._refresh_process_continues)
         self.movie_list_worker.signals.movie_data_downloaded.connect(self._insert_movie)
         self.movie_list_worker.signals.download_process_finished.connect(self._download_process_finished)
@@ -51,6 +53,7 @@ class MovieList(QAbstractListModel):
     def _reset(self):
         self.beginResetModel()
         self._items.clear()
+        self.movie_list_changed.emit()
         self.endResetModel()
 
     @Slot()
@@ -71,6 +74,7 @@ class MovieList(QAbstractListModel):
     def _insert_movie(self, movie_data):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self._items.append(self._serializer(movie_data))
+        self.movie_list_changed.emit()
         self.endInsertRows()
 
     def _serializer(self, movie_data):
@@ -100,7 +104,11 @@ class MovieList(QAbstractListModel):
         print(f"_get_is_downloading {self.movie_list_worker.is_working}")
         return self.movie_list_worker.is_working
 
+    def _get_movie_count(self):
+        return len(self._items)
+
     is_downloading = Property(bool, _get_is_downloading, notify=download_progress_changed)
+    movie_count = Property(int, _get_movie_count, notify=movie_list_changed)
 
 
 class WorkerSignals(QObject):
