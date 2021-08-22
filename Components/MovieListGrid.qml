@@ -7,7 +7,7 @@ Item {
         anchors.fill: parent
         clip: true
 
-        model: MovieListModel
+        model: MovieListModel_Proxy
         cellWidth: 210
         cellHeight: 383
 

@@ -6,7 +6,7 @@ Item {
     ListView{
         id: list_view
         anchors.fill: parent
-        model: MovieListModel
+        model: MovieListModel_Proxy
         spacing: 5
         clip: true
 

@@ -1,6 +1,6 @@
 import tmdbsimple as tmdb
 from dotenv import load_dotenv
-from PySide6.QtCore import QAbstractListModel, Qt, QModelIndex, QObject, QRunnable, \
+from PySide6.QtCore import QAbstractListModel, QSortFilterProxyModel, Qt, QModelIndex, QObject, QRunnable, \
     QThreadPool, Signal, QUrl, Slot, Property
 import os, shutil, time
 from os.path import expanduser
@@ -109,6 +109,11 @@ class MovieList(QAbstractListModel):
 
     is_downloading = Property(bool, _get_is_downloading, notify=download_progress_changed)
     movie_count = Property(int, _get_movie_count, notify=movie_list_changed)
+
+
+class MovieListProxy(QSortFilterProxyModel):
+    def __init__(self):
+        super(MovieListProxy, self).__init__()
 
 
 class WorkerSignals(QObject):
